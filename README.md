@@ -1,12 +1,13 @@
-# Module 01: Core Types, Enums & Structs
+# Module 02: DynamicArray<T> Generic Container
 
  Module Overview
-Establishes core enumerations (GameState, MenuChoice, WordRow), pointer arithmetic string utilities (zero CRT macros), and foundational structs: Tile, Clue, and Location (with custom dynamic memory and Rule of Three).
+Implements a custom generic dynamic array template utilizing pointer arithmetic exclusively (zero subscript [] operators), dynamic memory reallocation, and deep-copy Rule of Three semantics.
 
  Key OOP & Architectural Concepts Demonstrated
-- **Encapsulation, Dynamic Memory Allocation (DMA), Rule of Three (Copy Ctor, Assignment Operator, Destructor), Pointer Arithmetic, Operator Overloading (==, <<, >>).**
+Templates / Generics, Dynamic Memory Allocation, Rule of Three, Strict Pointer Arithmetic, Custom Container Design.
 
- Files Included
-- `Types.h`
-- `Types.cpp`
+Files Included
+ `DynamicArray.h`
 
+
+```
