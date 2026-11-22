@@ -1,13 +1,13 @@
- Module 03: Custom Exception Hierarchy
+# Module 04: Character Abstract Base Class
 
  Module Overview
-Builds a custom OOP exception hierarchy rooted in GameException (inheriting std::exception) with dynamic error message storage, deep copies, and specialized domain exceptions: InvalidWordException, RackFullException, and InvalidPositionException.
+Defines the abstract base class Character featuring pure virtual methods display() and getType(), friend class access for GameEngine, deep copy Rule of Three, and stream operator overloading.
 
- Key OOP & Architectural Concepts Demonstrated
- Inheritance, Exception Handling, Dynamic Memory Management, Polymorphism (what() noexcept override), Rule of Three.
+Key OOP & Architectural Concepts Demonstrated
+Abstract Base Classes, Pure Virtual Functions, Polymorphism, Friend Classes, Stream Operator Overloading, Dynamic Memory Allocation.
 
  Files Included
- `GameException.h`
- `GameException.cpp`
+ `Character.h`
+ `Character.cpp`
 
 
