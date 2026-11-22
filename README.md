@@ -1,13 +1,14 @@
-# Module 04: Character Abstract Base Class
+ Module 05: Concrete Cast – Detective & Victim
 
  Module Overview
-Defines the abstract base class Character featuring pure virtual methods display() and getType(), friend class access for GameEngine, deep copy Rule of Three, and stream operator overloading.
+Implements concrete derived classes Victim (post-mortem metadata, cause of death, last known location) and Detective (credibility meter, turn tracker, badge number, health logic).
 
-Key OOP & Architectural Concepts Demonstrated
-Abstract Base Classes, Pure Virtual Functions, Polymorphism, Friend Classes, Stream Operator Overloading, Dynamic Memory Allocation.
+ Key OOP & Architectural Concepts Demonstrated
+Inheritance, Polymorphic Override, State Tracking, Encapsulation.
 
  Files Included
- `Character.h`
- `Character.cpp`
+ `VictimAndDetective.h`
+ `VictimAndDetective.cpp`
 
 
+```
