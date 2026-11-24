@@ -1,14 +1,11 @@
- Module 05: Concrete Cast – Detective & Victim
+ Module 06: Suspect Base Class
 
  Module Overview
-Implements concrete derived classes Victim (post-mortem metadata, cause of death, last known location) and Detective (credibility meter, turn tracker, badge number, health logic).
+Implements Suspect deriving from Character. Stores motive, alibi, culprit flag, target secret words (word1, word2), and virtual credibility threshold for interrogation access.
 
  Key OOP & Architectural Concepts Demonstrated
-Inheritance, Polymorphic Override, State Tracking, Encapsulation.
+ **Inheritance, Virtual Functions, Rule of Three, Polymorphism, Access Control.**
 
  Files Included
- `VictimAndDetective.h`
- `VictimAndDetective.cpp`
-
-
-```
+ `Suspect.h`
+ `Suspect.cpp`
