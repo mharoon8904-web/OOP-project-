@@ -1,0 +1,133 @@
+#include "SuspectBranches.h"
+
+// ============================================================================
+// BusinessRelations Implementation
+// ============================================================================
+BusinessRelations::BusinessRelations() : Suspect(), companyName(nullptr) {}
+
+BusinessRelations::BusinessRelations(const char* name, const char* role,
+                                     char tile, int pos, WordRow row,
+                                     const char* mot, const char* ali,
+                                     const char* w1, const char* w2,
+                                     const char* company)
+    : Suspect(name, role, tile, pos, row, mot, ali, w1, w2), companyName(nullptr) {
+    copyStrPtr(companyName, company);
+}
+
+BusinessRelations::BusinessRelations(const BusinessRelations& other)
+    : Suspect(other), companyName(nullptr) {
+    copyStrPtr(companyName, other.companyName);
+}
+
+BusinessRelations& BusinessRelations::operator=(const BusinessRelations& other) {
+    if (this != &other) {
+        Suspect::operator=(other);
+        copyStrPtr(companyName, other.companyName);
+    }
+    return *this;
+}
+
+BusinessRelations::~BusinessRelations() {
+    delete[] companyName;
+    companyName = nullptr;
+}
+
+void BusinessRelations::display() const {
+    std::cout << "  Name         : " << (charName    ? charName    : "Unknown") << "\n";
+    std::cout << "  Role         : " << (charRole    ? charRole    : "Unknown") << "\n";
+    std::cout << "  Affiliation  : " << (companyName ? companyName : "None")    << "\n";
+    std::cout << "  Motive       : " << (motive      ? motive      : "None")    << "\n";
+    std::cout << "  Alibi        : " << (alibi       ? alibi       : "None")    << "\n";
+}
+
+const char* BusinessRelations::getType()                const { return "BUSINESS RELATION"; }
+const char* BusinessRelations::getCompanyName()          const { return companyName; }
+int         BusinessRelations::getCredibilityRequired() const { return 50; }
+
+// ============================================================================
+// HouseHelp Implementation
+// ============================================================================
+HouseHelp::HouseHelp() : Suspect(), yearsOfService(nullptr) {}
+
+HouseHelp::HouseHelp(const char* name, const char* role,
+                     char tile, int pos, WordRow row,
+                     const char* mot, const char* ali,
+                     const char* w1, const char* w2,
+                     const char* years)
+    : Suspect(name, role, tile, pos, row, mot, ali, w1, w2), yearsOfService(nullptr) {
+    copyStrPtr(yearsOfService, years);
+}
+
+HouseHelp::HouseHelp(const HouseHelp& other)
+    : Suspect(other), yearsOfService(nullptr) {
+    copyStrPtr(yearsOfService, other.yearsOfService);
+}
+
+HouseHelp& HouseHelp::operator=(const HouseHelp& other) {
+    if (this != &other) {
+        Suspect::operator=(other);
+        copyStrPtr(yearsOfService, other.yearsOfService);
+    }
+    return *this;
+}
+
+HouseHelp::~HouseHelp() {
+    delete[] yearsOfService;
+    yearsOfService = nullptr;
+}
+
+void HouseHelp::display() const {
+    std::cout << "  Name             : " << (charName       ? charName       : "Unknown") << "\n";
+    std::cout << "  Role             : " << (charRole       ? charRole       : "Unknown") << "\n";
+    std::cout << "  Years of Service : " << (yearsOfService ? yearsOfService : "Unknown") << "\n";
+    std::cout << "  Motive           : " << (motive         ? motive         : "None")    << "\n";
+    std::cout << "  Alibi            : " << (alibi          ? alibi          : "None")    << "\n";
+}
+
+const char* HouseHelp::getType()                const { return "HOUSE HELP"; }
+const char* HouseHelp::getYearsOfService()      const { return yearsOfService; }
+int         HouseHelp::getCredibilityRequired() const { return 40; }
+
+// ============================================================================
+// CloseRelations Implementation
+// ============================================================================
+CloseRelations::CloseRelations() : Suspect(), relationship(nullptr) {}
+
+CloseRelations::CloseRelations(const char* name, const char* role,
+                               char tile, int pos, WordRow row,
+                               const char* mot, const char* ali,
+                               const char* w1, const char* w2,
+                               const char* rel)
+    : Suspect(name, role, tile, pos, row, mot, ali, w1, w2), relationship(nullptr) {
+    copyStrPtr(relationship, rel);
+}
+
+CloseRelations::CloseRelations(const CloseRelations& other)
+    : Suspect(other), relationship(nullptr) {
+    copyStrPtr(relationship, other.relationship);
+}
+
+CloseRelations& CloseRelations::operator=(const CloseRelations& other) {
+    if (this != &other) {
+        Suspect::operator=(other);
+        copyStrPtr(relationship, other.relationship);
+    }
+    return *this;
+}
+
+CloseRelations::~CloseRelations() {
+    delete[] relationship;
+    relationship = nullptr;
+}
+
+void CloseRelations::display() const {
+    std::cout << "  Name         : " << (charName     ? charName     : "Unknown") << "\n";
+    std::cout << "  Role         : " << (charRole     ? charRole     : "Unknown") << "\n";
+    std::cout << "  Relationship : " << (relationship ? relationship : "Family")  << "\n";
+    std::cout << "  Motive       : " << (motive       ? motive       : "None")    << "\n";
+    std::cout << "  Alibi        : " << (alibi        ? alibi        : "None")    << "\n";
+}
+
+const char* CloseRelations::getType()                const { return "CLOSE RELATION"; }
+const char* CloseRelations::getRelationship()         const { return relationship; }
+int         CloseRelations::getCredibilityRequired() const { return 60; }

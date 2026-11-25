@@ -1,0 +1,69 @@
+#ifndef SUSPECT_BRANCHES_H
+#define SUSPECT_BRANCHES_H
+
+#include "Suspect.h"
+
+// ============================================================================
+// BRANCH 1: BUSINESS RELATIONS (Virtually inherits Suspect)
+// ============================================================================
+class BusinessRelations : public virtual Suspect {
+protected:
+    char* companyName;
+public:
+    BusinessRelations();
+    BusinessRelations(const char* name, const char* role, char tile, int pos, WordRow row,
+                      const char* mot, const char* ali, const char* w1, const char* w2,
+                      const char* company);
+    BusinessRelations(const BusinessRelations& other);
+    BusinessRelations& operator=(const BusinessRelations& other);
+    virtual ~BusinessRelations();
+
+    virtual void        display() const override;
+    virtual const char* getType() const override;
+    const char*         getCompanyName() const;
+    virtual int         getCredibilityRequired() const override; // Requires 50
+};
+
+// ============================================================================
+// BRANCH 2: HOUSE HELP
+// ============================================================================
+class HouseHelp : public Suspect {
+protected:
+    char* yearsOfService;
+public:
+    HouseHelp();
+    HouseHelp(const char* name, const char* role, char tile, int pos, WordRow row,
+              const char* mot, const char* ali, const char* w1, const char* w2,
+              const char* years);
+    HouseHelp(const HouseHelp& other);
+    HouseHelp& operator=(const HouseHelp& other);
+    virtual ~HouseHelp();
+
+    virtual void        display() const override;
+    virtual const char* getType() const override;
+    const char*         getYearsOfService() const;
+    virtual int         getCredibilityRequired() const override; // Requires 40
+};
+
+// ============================================================================
+// BRANCH 3: CLOSE RELATIONS (Virtually inherits Suspect)
+// ============================================================================
+class CloseRelations : public virtual Suspect {
+protected:
+    char* relationship;
+public:
+    CloseRelations();
+    CloseRelations(const char* name, const char* role, char tile, int pos, WordRow row,
+                   const char* mot, const char* ali, const char* w1, const char* w2,
+                   const char* rel);
+    CloseRelations(const CloseRelations& other);
+    CloseRelations& operator=(const CloseRelations& other);
+    virtual ~CloseRelations();
+
+    virtual void        display() const override;
+    virtual const char* getType() const override;
+    const char*         getRelationship() const;
+    virtual int         getCredibilityRequired() const override; // Requires 60
+};
+
+#endif // SUSPECT_BRANCHES_H

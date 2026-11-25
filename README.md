@@ -1,11 +1,16 @@
- Module 06: Suspect Base Class
+# Module 07: Suspect Specialization Branches
 
- Module Overview
-Implements Suspect deriving from Character. Stores motive, alibi, culprit flag, target secret words (word1, word2), and virtual credibility threshold for interrogation access.
+##  Module Overview
+Implements derived branches: BusinessRelations (virtually inherits Suspect), HouseHelp (inherits Suspect), and CloseRelations (virtually inherits Suspect). Sets up distinct credibility gates and metadata.
 
- Key OOP & Architectural Concepts Demonstrated
- **Inheritance, Virtual Functions, Rule of Three, Polymorphism, Access Control.**
+##  Key OOP & Architectural Concepts Demonstrated
+- **Virtual Inheritance, Hierarchical Specialization, Method Overriding, Polymorphic Credibility Thresholds.**
 
- Files Included
- `Suspect.h`
- `Suspect.cpp`
+##  Files Included
+- `SuspectBranches.h`
+- `SuspectBranches.cpp`
+
+
+
+
+
