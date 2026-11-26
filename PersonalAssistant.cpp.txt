@@ -1,0 +1,52 @@
+#include "PersonalAssistant.h"
+
+PA::PA()
+    : Suspect(), BusinessRelations(), CloseRelations(), securityClearance(nullptr) {}
+
+PA::PA(const char* name, const char* role,
+       char tile, int pos, WordRow row,
+       const char* mot, const char* ali,
+       const char* w1, const char* w2,
+       const char* company, const char* rel,
+       const char* clearance)
+    : Suspect(name, role, tile, pos, row, mot, ali, w1, w2),
+      BusinessRelations(name, role, tile, pos, row, mot, ali, w1, w2, company),
+      CloseRelations   (name, role, tile, pos, row, mot, ali, w1, w2, rel),
+      securityClearance(nullptr) {
+    copyStrPtr(securityClearance, clearance);
+}
+
+PA::PA(const PA& other)
+    : Suspect(other), BusinessRelations(other), CloseRelations(other),
+      securityClearance(nullptr) {
+    copyStrPtr(securityClearance, other.securityClearance);
+}
+
+PA& PA::operator=(const PA& other) {
+    if (this != &other) {
+        BusinessRelations::operator=(other);
+        // Use public getter to comply with ISO C++ protected cross-access rules
+        copyStrPtr(relationship, other.getRelationship());
+        copyStrPtr(securityClearance, other.securityClearance);
+    }
+    return *this;
+}
+
+PA::~PA() {
+    delete[] securityClearance;
+    securityClearance = nullptr;
+}
+
+void PA::display() const {
+    std::cout << "  Name               : " << (charName          ? charName          : "Unknown") << "\n";
+    std::cout << "  Role               : " << (charRole          ? charRole          : "Unknown") << "\n";
+    std::cout << "  Affiliation        : " << (companyName       ? companyName       : "None")    << "\n";
+    std::cout << "  Relationship       : " << (relationship      ? relationship      : "None")    << "\n";
+    std::cout << "  Security Clearance : " << (securityClearance ? securityClearance : "Standard") << "\n";
+    std::cout << "  Motive             : " << (motive            ? motive            : "None")    << "\n";
+    std::cout << "  Alibi              : " << (alibi             ? alibi             : "None")    << "\n";
+}
+
+const char* PA::getType()                const { return "PERSONAL ASSISTANT"; }
+const char* PA::getSecurityClearance()   const { return securityClearance; }
+int         PA::getCredibilityRequired() const { return 35; }

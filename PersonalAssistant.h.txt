@@ -1,0 +1,28 @@
+#ifndef PERSONAL_ASSISTANT_H
+#define PERSONAL_ASSISTANT_H
+
+#include "SuspectBranches.h"
+
+// ============================================================================
+// THE DIAMOND PROBLEM: PA inherits from both BusinessRelations and CloseRelations
+// Virtual inheritance of Suspect ensures only ONE shared Suspect subobject exists.
+// ============================================================================
+class PA : public BusinessRelations, public CloseRelations {
+private:
+    char* securityClearance;
+public:
+    PA();
+    PA(const char* name, const char* role, char tile, int pos, WordRow row,
+       const char* mot, const char* ali, const char* w1, const char* w2,
+       const char* company, const char* rel, const char* clearance);
+    PA(const PA& other);
+    PA& operator=(const PA& other);
+    virtual ~PA();
+
+    virtual void        display() const override;
+    virtual const char* getType() const override;
+    const char*         getSecurityClearance() const;
+    virtual int         getCredibilityRequired() const override; // Requires 35
+};
+
+#endif // PERSONAL_ASSISTANT_H

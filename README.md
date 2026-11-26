@@ -1,16 +1,13 @@
-# Module 07: Suspect Specialization Branches
+# Module 08: The Diamond Problem – Personal Assistant (PA)
 
 ##  Module Overview
-Implements derived branches: BusinessRelations (virtually inherits Suspect), HouseHelp (inherits Suspect), and CloseRelations (virtually inherits Suspect). Sets up distinct credibility gates and metadata.
+Resolves the classic C++ diamond problem where PA inherits from both BusinessRelations and CloseRelations. Virtual inheritance ensures exactly one shared Suspect base instance.
 
 ##  Key OOP & Architectural Concepts Demonstrated
-- **Virtual Inheritance, Hierarchical Specialization, Method Overriding, Polymorphic Credibility Thresholds.**
+- **The Diamond Problem, Virtual Base Classes, Multiple Inheritance, Ambiguity Resolution, ISO C++ Safe Member Access.**
 
-##  Files Included
-- `SuspectBranches.h`
-- `SuspectBranches.cpp`
+## Files Included
+- `PersonalAssistant.h`
+- `PersonalAssistant.cpp`
 
-
-
-
-
+```
