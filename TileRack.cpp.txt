@@ -1,0 +1,63 @@
+#include "TileRack.h"
+#include <iostream>
+
+TileRack::TileRack() : rack(MAX_SIZE) {}
+TileRack::TileRack(const TileRack& other) : rack(other.rack) {}
+
+TileRack& TileRack::operator=(const TileRack& other) {
+    if (this != &other) {
+        rack = other.rack;
+    }
+    return *this;
+}
+
+TileRack::~TileRack() {}
+
+void TileRack::addTile(const Tile& tile) {
+    if (rack.getSize() >= MAX_SIZE) {
+        throw RackFullException("Evidence Tile Rack is at maximum capacity (15 tiles).");
+    }
+    rack.add(tile);
+}
+
+Tile TileRack::removeTileAt(int index) {
+    Tile item = rack.get(index);
+    rack.removeAt(index);
+    return item;
+}
+
+int   TileRack::getSize()  const { return rack.getSize(); }
+bool  TileRack::isFull()   const { return rack.getSize() >= MAX_SIZE; }
+bool  TileRack::isEmpty()  const { return rack.isEmpty(); }
+Tile* TileRack::getAt(int index) const { return rack.getPtr(index); }
+
+Tile* TileRack::rackBegin() const { return rack.begin(); }
+Tile* TileRack::rackEnd()   const { return rack.end(); }
+
+void TileRack::displayRack() const {
+    std::cout << "  Tile Rack (" << rack.getSize() << "/" << MAX_SIZE << ") : ";
+    if (rack.isEmpty()) {
+        std::cout << "[Empty]\n";
+        return;
+    }
+
+    for (Tile* p = rack.begin(); p != rack.end(); ++p) {
+        std::cout << "[" << p->tileLetter
+                  << " R" << (p->tileRow == ROW_ONE ? 1 : 2)
+                  << " P" << (p->boardPos + 1) << "] ";
+    }
+    std::cout << "\n";
+}
+
+TileRack TileRack::operator+(const TileRack& other) const {
+    TileRack merged;
+    for (Tile* p = rack.begin(); p != rack.end(); ++p) {
+        merged.addTile(*p);
+    }
+    for (Tile* p = other.rack.begin(); p != other.rack.end(); ++p) {
+        if (!merged.isFull()) {
+            merged.addTile(*p);
+        }
+    }
+    return merged;
+}

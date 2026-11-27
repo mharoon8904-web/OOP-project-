@@ -1,0 +1,38 @@
+#ifndef TILERACK_H
+#define TILERACK_H
+
+#include "DynamicArray.h"
+#include "Types.h"
+#include "GameException.h"
+
+// ============================================================================
+// TILERACK EVIDENCE MANAGER
+// Composes DynamicArray<Tile>
+// ============================================================================
+class TileRack {
+private:
+    DynamicArray<Tile> rack;
+    static const int   MAX_SIZE = 15;
+public:
+    TileRack();
+    TileRack(const TileRack& other);
+    TileRack& operator=(const TileRack& other);
+    ~TileRack();
+
+    void  addTile(const Tile& tile);
+    Tile  removeTileAt(int index);
+    int   getSize()  const;
+    bool  isFull()   const;
+    bool  isEmpty()  const;
+    Tile* getAt(int index) const;
+
+    Tile* rackBegin() const;
+    Tile* rackEnd()   const;
+
+    void  displayRack() const;
+
+    // Operator Overloading: Merge two racks together
+    TileRack operator+(const TileRack& other) const;
+};
+
+#endif // TILERACK_H
