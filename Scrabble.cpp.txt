@@ -1,0 +1,147 @@
+#include "Scrabble.h"
+#include <iostream>
+
+Scrabble::Scrabble() : board(2), goalWord1(nullptr), goalWord2(nullptr) {
+    // Jagged Allocation: Row 1 = 7 slots, Row 2 = 8 slots
+    DynamicArray<Tile> row1(7);
+    for (int i = 0; i < 7; ++i) {
+        Tile blankTile('\0', i, ROW_ONE);
+        row1.add(blankTile);
+    }
+    board.add(row1);
+
+    DynamicArray<Tile> row2(8);
+    for (int i = 0; i < 8; ++i) {
+        Tile blankTile('\0', i, ROW_TWO);
+        row2.add(blankTile);
+    }
+    board.add(row2);
+}
+
+Scrabble::Scrabble(const Scrabble& other)
+    : board(other.board), goalWord1(nullptr), goalWord2(nullptr) {
+    copyStrPtr(goalWord1, other.goalWord1);
+    copyStrPtr(goalWord2, other.goalWord2);
+}
+
+Scrabble& Scrabble::operator=(const Scrabble& other) {
+    if (this != &other) {
+        board = other.board;
+        copyStrPtr(goalWord1, other.goalWord1);
+        copyStrPtr(goalWord2, other.goalWord2);
+    }
+    return *this;
+}
+
+Scrabble::~Scrabble() {
+    delete[] goalWord1;
+    delete[] goalWord2;
+    goalWord1 = nullptr;
+    goalWord2 = nullptr;
+}
+
+void Scrabble::setGoalWords(const char* w1, const char* w2) {
+    copyStrPtr(goalWord1, w1);
+    copyStrPtr(goalWord2, w2);
+}
+
+bool Scrabble::placeTile(const Tile& tile, int row, int pos) {
+    if (row < 0 || row >= board.getSize()) {
+        throw InvalidPositionException("Invalid Scrabble board row coordinate.");
+    }
+    DynamicArray<Tile>* rPtr = board.getPtr(row);
+    if (pos < 0 || pos >= rPtr->getSize()) {
+        throw InvalidPositionException("Invalid Scrabble board column position index.");
+    }
+
+    Tile* target = rPtr->begin() + pos;
+    target->tileLetter = tile.tileLetter;
+    target->filled     = true;
+    target->boardPos   = pos;
+    target->tileRow    = static_cast<WordRow>(row);
+    return true;
+}
+
+bool Scrabble::isRowComplete(int row) const {
+    if (row < 0 || row >= board.getSize()) return false;
+    const DynamicArray<Tile>* rPtr = board.getPtr(row);
+
+    for (Tile* p = rPtr->begin(); p != rPtr->end(); ++p) {
+        if (!p->filled) return false;
+    }
+    return true;
+}
+
+bool Scrabble::isBoardComplete() const {
+    return isRowComplete(0) && isRowComplete(1);
+}
+
+bool Scrabble::checkWord(int row) const {
+    if (!isRowComplete(row)) return false;
+    const char* goal = (row == 0) ? goalWord1 : goalWord2;
+    if (!goal) return false;
+
+    const DynamicArray<Tile>* rPtr = board.getPtr(row);
+    Tile* p = rPtr->begin();
+    Tile* endPtr = rPtr->end();
+    const char* g = goal;
+
+    while (p != endPtr && *g != '\0') {
+        if (p->tileLetter != *g) return false;
+        ++p;
+        ++g;
+    }
+    return (p == endPtr && *g == '\0');
+}
+
+bool Scrabble::checkAllWords() const {
+    return checkWord(0) && checkWord(1);
+}
+
+void Scrabble::clearRow(int row) {
+    if (row < 0 || row >= board.getSize()) return;
+    DynamicArray<Tile>* rPtr = board.getPtr(row);
+    for (Tile* p = rPtr->begin(); p != rPtr->end(); ++p) {
+        p->tileLetter = '\0';
+        p->filled     = false;
+    }
+}
+
+void Scrabble::resetBoard() {
+    clearRow(0);
+    clearRow(1);
+}
+
+void Scrabble::displayBoard() const {
+    std::cout << "\n  +================== SCRABBLE BOARD ==================+\n";
+    for (int r = 0; r < board.getSize(); ++r) {
+        const DynamicArray<Tile>* rPtr = board.getPtr(r);
+        std::cout << "  | Row " << (r + 1) << " (" << rPtr->getSize() << " letters): | ";
+        for (Tile* p = rPtr->begin(); p != rPtr->end(); ++p) {
+            std::cout << (p->filled ? p->tileLetter : '_') << " | ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "  +====================================================+\n";
+}
+
+int Scrabble::getRowSize(int row) const {
+    if (row < 0 || row >= board.getSize()) return 0;
+    return board.getPtr(row)->getSize();
+}
+
+const char* Scrabble::getGoalWord1() const { return goalWord1 ? goalWord1 : "???????"; }
+const char* Scrabble::getGoalWord2() const { return goalWord2 ? goalWord2 : "????????"; }
+
+std::ostream& operator<<(std::ostream& os, const Scrabble& b) {
+    b.displayBoard();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Scrabble& b) {
+    char w1[64], w2[64];
+    if (is >> w1 >> w2) {
+        b.setGoalWords(w1, w2);
+    }
+    return is;
+}

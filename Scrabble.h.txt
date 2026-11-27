@@ -1,0 +1,42 @@
+#ifndef SCRABBLE_H
+#define SCRABBLE_H
+
+#include "DynamicArray.h"
+#include "Types.h"
+#include "GameException.h"
+
+// ============================================================================
+// SCRABBLE BOARD (Jagged 2D DynamicArray)
+// Row 1 = 7 slots (Locations), Row 2 = 8 slots (Characters)
+// ============================================================================
+class Scrabble {
+private:
+    DynamicArray<DynamicArray<Tile>> board;
+    char* goalWord1; // Target 7-letter word
+    char* goalWord2; // Target 8-letter word
+
+public:
+    Scrabble();
+    Scrabble(const Scrabble& other);
+    Scrabble& operator=(const Scrabble& other);
+    ~Scrabble();
+
+    void setGoalWords(const char* w1, const char* w2);
+    bool placeTile(const Tile& tile, int row, int pos);
+    bool isRowComplete(int row) const;
+    bool isBoardComplete() const;
+    bool checkWord(int row) const;
+    bool checkAllWords() const;
+    void clearRow(int row);
+    void resetBoard();
+    void displayBoard() const;
+
+    int         getRowSize(int row) const;
+    const char* getGoalWord1() const;
+    const char* getGoalWord2() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Scrabble& b);
+    friend std::istream& operator>>(std::istream& is, Scrabble& b);
+};
+
+#endif // SCRABBLE_H
