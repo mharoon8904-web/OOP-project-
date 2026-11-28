@@ -1,0 +1,76 @@
+#include "heist.h"
+
+int main() {
+    try {
+        GameEngine& engine = GameEngine::getInstance();
+        engine.run();
+    }
+    catch (const InvalidWordException& iwe) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [FATAL ERROR] Invalid Word Formation Exception Caught!\n";
+        std::cerr << " Details: " << iwe.what() << "\n";
+        std::cerr << " The investigation records were corrupted. Session aborted.\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return 1;
+    }
+    catch (const RackFullException& rfe) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [FATAL ERROR] Tile Rack Capacity Exception Caught!\n";
+        std::cerr << " Details: " << rfe.what() << "\n";
+        std::cerr << " Evidence locker exceeded physical bounds. Session aborted.\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return 2;
+    }
+    catch (const InvalidPositionException& ipe) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [FATAL ERROR] Invalid Position Range Exception Caught!\n";
+        std::cerr << " Details: " << ipe.what() << "\n";
+        std::cerr << " Scrabble slot calculation out of bounds. Session aborted.\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return 3;
+    }
+    catch (const GameException& ge) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [FATAL ERROR] Game Engine Exception Caught!\n";
+        std::cerr << " Details: " << ge.what() << "\n";
+        std::cerr << " Unhandled game state fault. Session aborted.\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return 4;
+    }
+    catch (const std::exception& se) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [STANDARD EXCEPTION CAUGHT]: " << se.what() << "\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return 5;
+    }
+    catch (...) {
+        std::cerr << "\n=======================================================\n";
+        std::cerr << " [CRITICAL ERROR] An unidentified catastrophic fault occurred.\n";
+        std::cerr << "=======================================================\n\n";
+#ifdef _WIN32
+        system("pause");
+#endif
+        return -1;
+    }
+
+    std::cout << "\n[System] Game execution concluded normally.\n";
+#ifdef _WIN32
+    system("pause");
+#endif
+    return 0;
+}

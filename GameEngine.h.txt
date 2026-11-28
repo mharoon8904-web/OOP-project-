@@ -1,0 +1,83 @@
+#ifndef GAMEENGINE_H
+#define GAMEENGINE_H
+
+#include "Types.h"
+#include "DynamicArray.h"
+#include "GameException.h"
+#include "Character.h"
+#include "VictimAndDetective.h"
+#include "Suspect.h"
+#include "SuspectBranches.h"
+#include "PersonalAssistant.h"
+#include "TileRack.h"
+#include "Scrabble.h"
+#include "Cottage.h"
+
+// ============================================================================
+// SINGLETON GAME ENGINE
+// ============================================================================
+class GameEngine {
+private:
+    static GameEngine* instance;
+
+    GameState   state;
+    Detective*  detective;       // Composed
+    Victim*     victim;          // Composed
+    Suspect**   suspects;        // Polymorphic dynamic array
+    int         numSuspects;
+    int         culpritIndex;
+
+    Cottage     cottage;         // Composed
+    Scrabble    scrabble;        // Composed
+    TileRack    playerRack;      // Composed
+
+    bool        word1Formed;
+    bool        word2Formed;
+    bool        gameActive;
+
+    GameEngine();
+
+    void loadCharactersFromFile();
+    void setupVictim();
+    void distributeClues();
+    void saveScoreToFile(bool won);
+
+    void displayDivider(char ch = '=', int width = 65) const;
+    void displayCentered(const char* text, int width = 65) const;
+    void displayTitle() const;
+    void clearConsole() const;
+    void pauseForUser() const;
+    int  getIntInput(int minVal, int maxVal) const;
+
+    void displayMainMenu()  const;
+    void displayGameMenu()  const;
+    void displayStatusBar() const;
+
+    void handleVisitLocation();
+    void handleInterviewCharacter();
+    void handleViewBoard()  const;
+    void handleFormWord();
+    void handleAccuse();
+    void checkGameOverConditions();
+    void deleteSuspects();
+
+    static void extractField(const char* line, int fieldIdx, char* dest, int maxLen);
+
+public:
+    GameEngine(const GameEngine&)            = delete;
+    GameEngine& operator=(const GameEngine&) = delete;
+
+    static GameEngine& getInstance();
+    ~GameEngine();
+
+    void run();
+    void startNewGame();
+    void showLeaderboard();
+    void showAbout();
+    void showRules();
+    void endGame(bool won);
+
+    GameState getState() const;
+};
+
+#endif // GAMEENGINE_H
