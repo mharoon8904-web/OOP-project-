@@ -1,0 +1,79 @@
+#include "Cottage.h"
+#include <iostream>
+
+Cottage::Cottage() : locations(NUM_LOCATIONS) {}
+Cottage::Cottage(const Cottage& other) : locations(other.locations) {}
+
+Cottage& Cottage::operator=(const Cottage& other) {
+    if (this != &other) {
+        locations = other.locations;
+    }
+    return *this;
+}
+
+Cottage::~Cottage() {}
+
+void Cottage::addLocation(const Location& loc) {
+    locations.add(loc);
+}
+
+Location* Cottage::getLocation(int index) const {
+    if (index < 0 || index >= locations.getSize()) return nullptr;
+    return locations.getPtr(index);
+}
+
+int Cottage::getNumLocations() const {
+    return locations.getSize();
+}
+
+void Cottage::displayLocations() const {
+    int idx = 1;
+    for (Location* p = locations.begin(); p != locations.end(); ++p) {
+        std::cout << "  [" << idx << "] " << *p << "\n";
+        ++idx;
+    }
+}
+
+Location* Cottage::locBegin() const { return locations.begin(); }
+Location* Cottage::locEnd()   const { return locations.end(); }
+
+void Cottage::setup(const char* const names[], const char* word, WordRow row) {
+    locations.clear();
+
+    char fileNames[NUM_LOCATIONS][128];
+    int fileCount = 0;
+    std::ifstream locFile("data/locations.txt");
+    if (!locFile.is_open()) locFile.open("locations.txt");
+
+    if (locFile.is_open()) {
+        char buf[128];
+        while (fileCount < NUM_LOCATIONS && locFile.getline(buf, 128)) {
+            if (strLenPtr(buf) > 0) {
+                char* dst = *(fileNames + fileCount);
+                const char* src = buf;
+                while (*src != '\0') {
+                    *dst = *src;
+                    ++dst;
+                    ++src;
+                }
+                *dst = '\0';
+                ++fileCount;
+            }
+        }
+        locFile.close();
+    }
+
+    const char* lp = word;
+    int pos = 0;
+    while (*lp != '\0' && pos < NUM_LOCATIONS) {
+        const char* nameToUse = (fileCount == NUM_LOCATIONS) ? *(fileNames + pos) : *(names + pos);
+        Location loc(nameToUse, *lp, pos, row);
+        locations.add(loc);
+        ++lp;
+        ++pos;
+    }
+}
+
+void Cottage::clearLocations() {
+    locations.clear();
+}

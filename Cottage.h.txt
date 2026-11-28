@@ -1,0 +1,34 @@
+#ifndef COTTAGE_H
+#define COTTAGE_H
+
+#include "DynamicArray.h"
+#include "Types.h"
+#include <fstream>
+
+// ============================================================================
+// COTTAGE MANOR LOCATION MANAGER
+// Aggregates 7 Location objects in DynamicArray<Location>
+// ============================================================================
+class Cottage {
+private:
+    DynamicArray<Location> locations;
+    static const int NUM_LOCATIONS = 7;
+public:
+    Cottage();
+    Cottage(const Cottage& other);
+    Cottage& operator=(const Cottage& other);
+    ~Cottage();
+
+    void      addLocation(const Location& loc);
+    Location* getLocation(int index) const;
+    int       getNumLocations() const;
+    void      displayLocations() const;
+
+    Location* locBegin() const;
+    Location* locEnd()   const;
+
+    void setup(const char* const names[], const char* word, WordRow row);
+    void clearLocations();
+};
+
+#endif // COTTAGE_H
